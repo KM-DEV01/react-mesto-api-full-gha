@@ -1,0 +1,13 @@
+.popup__label {
+	display: block;
+}
+
+.popup__label:last-of-type{
+	margin-bottom: 13px;
+}
+
+@media screen and (max-width: 597px) {
+	.popup__label:last-of-type {
+		margin-bottom: 10px;
+	}
+}

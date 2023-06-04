@@ -1,0 +1,21 @@
+.card__list {
+	display: flex;
+	flex-wrap: wrap;
+	/*justify-content: center;*/
+	margin: 0 auto;
+	padding: 0;
+	row-gap: 20px;
+	column-gap: 17px;
+}
+
+@media screen and (max-width: 896px) {
+	.card__list {
+		width: 581px;
+	}
+}
+
+@media screen and (max-width: 597px) {
+	.card__list {
+		width: 282px;
+	}
+}

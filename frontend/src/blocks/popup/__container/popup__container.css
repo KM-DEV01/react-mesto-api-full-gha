@@ -1,0 +1,5 @@
+.popup__container {
+	display: flex;
+	max-width: 430px;
+	position: relative;
+}

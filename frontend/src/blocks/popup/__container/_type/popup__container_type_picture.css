@@ -1,0 +1,5 @@
+.popup__container_type_picture {
+	flex-direction: column;
+	cursor: default;
+	max-width: 100%;
+}

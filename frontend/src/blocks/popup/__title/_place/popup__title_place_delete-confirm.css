@@ -1,0 +1,9 @@
+.popup__title_place_delete-confirm {
+	margin: 0 0 38px 0;
+}
+
+@media screen and (max-width: 597px) {
+	.popup__title {
+		margin-bottom: 37px;
+	}
+}
