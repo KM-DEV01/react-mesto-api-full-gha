@@ -97,15 +97,14 @@ class Api {
   }
 }
 
-export const api = new Api('https://mesto.nomoreparties.co/v1/cohort-60',
+export const api = new Api('api.toxicity.nomoredomains.rocks',
   {
     headers: {
-      authorization: 'c3588739-7d46-4828-9355-4513d2ca8508',
       'Content-Type': 'application/json'
     }
   });
 
-export const authApi = new Api('https://auth.nomoreparties.co',
+export const authApi = new Api('api.toxicity.nomoredomains.rocks',
   {
     headers: {
       'Content-Type': 'application/json',
