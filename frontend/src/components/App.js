@@ -3,7 +3,7 @@ import { Route, Routes, useNavigate } from 'react-router-dom';
 import { Main } from "./Main";
 import { Footer } from "./Footer";
 import { ImagePopup } from "./ImagePopup";
-import { api, authApi } from "../utils/api";
+import { api } from "../utils/api";
 import { CurrentUserContext } from "../context/CurrentUserContext";
 import { EditProfilePopup } from "./EditProfilePopup";
 import { EditAvatarPopup } from "./EditAvatarPopup";
@@ -18,6 +18,7 @@ import { Header } from "./Header";
 function App() {
 
   const defaultUser = {
+    _id: '',
     name: 'Жак-Ив Кусто',
     about: 'Исследователь океана',
     avatar: defaultImage,
@@ -61,11 +62,13 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
+    console.log(isLiked)
     api.likeCard(isLiked, card._id)
       .then((res) => {
+        console.log(res.data)
         setCards((state) => {
-          return state.map((cardsItem) => cardsItem._id === card._id ? res : cardsItem);
+          return state.map((cardsItem) => cardsItem._id === card._id ? res.data : cardsItem);
         });
       })
       .catch((err) => {
@@ -88,7 +91,7 @@ function App() {
   function handleUpdateUser(info) {
     api.setUserInfo(info)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -99,7 +102,7 @@ function App() {
   function handleUpdateAvatar(link) {
     api.updateAvatar(link)
       .then((res) => {
-        setCurrentUser(res);
+        setCurrentUser(res.data);
         closeAllPopups();
       })
       .catch((err) => {
@@ -110,7 +113,7 @@ function App() {
   function handleAddPlaceSubmit(place) {
     api.addNewCard(place)
       .then((newCard) => {
-        setCards([newCard, ...cards]);
+        setCards([newCard.data, ...cards]);
         closeAllPopups();
       })
       .catch((err) => {
@@ -119,10 +122,9 @@ function App() {
   }
 
   function handleSignIn(data) {
-    authApi.signin(data)
+    api.signin(data)
       .then((res) => {
-        if (res.token) {
-          localStorage.setItem('jwt', res.token);
+        if (res) {
           setUserData(data.email);
           navigate('/', {replace: true});
           setIsLoggedIn(true);
@@ -136,8 +138,8 @@ function App() {
   }
 
   function handleSignup(data) {
-    authApi.signup(data)
-      .then((res) => {
+    api.signup(data)
+      .then(() => {
         setIsAuthValid(true);
         setIsTooltipOpen(true);
         navigate('/sign-in', {replace: true});
@@ -150,37 +152,40 @@ function App() {
   }
 
   function handleLogout() {
-    if (localStorage.getItem('jwt')) {
-      localStorage.removeItem('jwt');
-      setIsLoggedIn(false);
-      navigate('/sign-in', {replace: true});
-    }
+    api.logout()
+      .then(() => {
+        setIsLoggedIn(false);
+        navigate('/sign-in', {replace: true});
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
-  function checkToken() {
-    if (localStorage.getItem('jwt')) {
-      authApi.authorization(localStorage.getItem('jwt'))
-        .then((res) => {
-          setUserData(res.data.email);
-          navigate('/', {replace: true});
-          setIsLoggedIn(true)
-        })
-        .catch(err => console.log(err))
-    }
+  function authorization() {
+    api.authorization()
+      .then((res) => {
+        setUserData(res.data.email);
+        navigate('/', {replace: true});
+        setIsLoggedIn(true)
+      })
+      .catch(err => console.log(err))
   }
 
   React.useEffect(() => {
     if (isLoggedIn) {
       api.getInitialCards()
-        .then((cards) => {
-          setCards(cards);
+        .then((res) => {
+          setCards(res.data.cards.sort((prev, current) => {
+            return new Date(current.createdAt) - new Date(prev.createdAt)
+          }));
         })
         .catch((err) => {
           console.log(err);
         });
       api.getUserInfo()
         .then((res) => {
-          setCurrentUser(res);
+          setCurrentUser(res.data);
         })
         .catch((err) => {
           console.log(err);
@@ -189,7 +194,7 @@ function App() {
   }, [isLoggedIn])
 
   React.useEffect(() => {
-    checkToken();
+    authorization();
   }, [])
 
   return (

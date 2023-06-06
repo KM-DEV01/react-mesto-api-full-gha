@@ -4,6 +4,10 @@ import React from "react";
 
 export function Header(props) {
   let location = useLocation();
+
+  function logout() {
+
+  }
   const child = () => {
     switch (location.pathname) {
       case '/sign-in':

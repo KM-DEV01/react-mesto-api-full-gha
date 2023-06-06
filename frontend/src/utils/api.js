@@ -5,9 +5,7 @@ class Api {
   }
 
   _getResponse(res) {
-    if (res.ok) {
-
-
+    if (res && res.ok) {
       return res.json();
     }
     return Promise.reject(`Ошибка: ${res.status}`);
@@ -85,28 +83,28 @@ class Api {
       .then((res) => this._getResponse(res));
   }
 
-  async authorization(token){
+  async authorization(){
     return fetch(`${this._baseUrl}/users/me`, {
       ...this._options,
-      headers: {
-        "Authorization" : `Bearer ${token}`
-      },
       method: 'GET'
     })
       .then((res) => this._getResponse(res));
   }
+
+  async logout(){
+    return fetch(`${this._baseUrl}/logout`, {
+      ...this._options,
+      method: 'POST',
+    })
+      .then((res) => this._getResponse(res));
+  }
+
 }
 
-export const api = new Api('api.toxicity.nomoredomains.rocks',
+export const api = new Api('http://localhost:8000',
   {
     headers: {
       'Content-Type': 'application/json'
-    }
-  });
-
-export const authApi = new Api('api.toxicity.nomoredomains.rocks',
-  {
-    headers: {
-      'Content-Type': 'application/json',
-    }
+    },
+    credentials: 'include',
   });

@@ -6,7 +6,9 @@ const CREATED = 201;
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => {
+      res.send({ data: { cards } });
+    })
     .catch(next);
 };
 

@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const { writeLog } = require('../utils/logWriter');
 
 const BAD_REQUEST = 400;
 const NOT_FOUND = 404;
@@ -20,7 +19,6 @@ module.exports = (err, req, res, next) => {
     return;
   }
   if (!err.statusCode) {
-    writeLog(err);
     res.status(INTERNAL_ERROR).send({ message: 'Произошла ошибка сервера.' });
     return;
   }
