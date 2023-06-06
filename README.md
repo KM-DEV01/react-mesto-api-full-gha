@@ -11,6 +11,6 @@
 
 IP 51.250.18.116
 
-Frontend http://toxicity.nomoredomains.rocks
+Frontend https://toxicity.nomoredomains.rocks
 
 Backend https://api.toxicity.nomoredomains.rocks
