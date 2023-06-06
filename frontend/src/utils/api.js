@@ -101,7 +101,7 @@ class Api {
 
 }
 
-export const api = new Api('https://api.toxicity.nomoredomains.rocks',
+export const api = new Api('http://localhost:8000',
   {
     headers: {
       'Content-Type': 'application/json'

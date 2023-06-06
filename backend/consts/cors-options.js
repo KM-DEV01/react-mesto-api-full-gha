@@ -1,5 +1,9 @@
 const corsOptions = {
-  origin: 'http://toxicity.nomoredomains.rocks',
+  origin: [
+    'http://localhost:3000',
+    'https://toxicity.nomoredomains.rocks',
+    'http://toxicity.nomoredomains.rocks',
+  ],
   credentials: true,
 };
 
