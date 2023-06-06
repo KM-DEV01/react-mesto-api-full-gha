@@ -176,7 +176,8 @@ function App() {
     if (isLoggedIn) {
       api.getInitialCards()
         .then((res) => {
-          setCards(res.data.cards.sort((prev, current) => {
+          setCards(res.n
+          cards.sort((prev, current) => {
             return new Date(current.createdAt) - new Date(prev.createdAt)
           }));
         })
