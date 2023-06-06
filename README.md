@@ -9,7 +9,7 @@
 
 ## Ссылки на проект
 
-IP-адрес 51.250.18.116
+IP 51.250.18.116
 
 Frontend http://toxicity.nomoredomains.rocks
 
